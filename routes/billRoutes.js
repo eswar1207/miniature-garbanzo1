@@ -14,6 +14,7 @@ const {
   getBestSellingItem,
   getRecentBills,
   getSalesData,
+  getBestSellingItems,
 } = require("../controllers/billController");
 
 // Create a new bill
@@ -54,5 +55,8 @@ router.get("/get-recent-bills", getRecentBills);
 
 // Get sales data
 router.get("/get-sales-data", getSalesData);
+
+// Get best selling items
+router.get("/get-best-selling-items", getBestSellingItems);
 
 module.exports = router;

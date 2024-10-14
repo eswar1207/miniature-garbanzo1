@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import DefaultLayout from "../components/DefaultLayout";
-import { Row, Col, Button, Form, Modal, Input, Select } from "antd";
+import { Row, Col, Button, Form, Modal, Input, Select, message } from "antd";
 import axios from "axios";
-import {
-  PlusCircleOutlined,
-} from "@ant-design/icons";
+import { PlusCircleOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "../styles/ItemPage.css";
+
+const { Option } = Select;
 
 const ItemPage = () => {
   const [itemsData, setItemsData] = useState([]);
@@ -13,7 +13,6 @@ const ItemPage = () => {
   const [editModal, setEditModal] = useState(false);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [newCategory] = useState("");
   const [form] = Form.useForm();
   const [editForm] = Form.useForm();
   const [selectedItem, setSelectedItem] = useState({});
@@ -37,65 +36,56 @@ const ItemPage = () => {
 
   useEffect(() => {
     if (editModal) {
-      editForm.setFieldsValue({
-        name: selectedItem.name,
-        price: selectedItem.price,
-        image: selectedItem.image,
-        category: selectedItem.category,
-      });
+      editForm.setFieldsValue(selectedItem);
     }
   }, [selectedItem, editModal, editForm]);
 
   const handleAddItem = async () => {
     try {
-      const values = form.getFieldsValue();
+      const values = await form.validateFields();
       const newItem = {
-        name: values.name,
-        price: values.price,
-        image: values.image,
-        category: selectedCategory || newCategory,
+        ...values,
+        category: selectedCategory === "all" ? values.category : selectedCategory,
       };
 
       const existingItem = itemsData.find((item) => item.name === newItem.name);
       if (existingItem) {
-        alert("Item with the same name already exists");
+        message.error("Item with the same name already exists");
         return;
       }
 
       await axios.post("/api/items/add-item", newItem);
+      message.success("Item added successfully");
       const response = await axios.get("/api/items/get-item");
       setItemsData(response.data);
       setPopupModal(false);
       form.resetFields();
-      setSelectedCategory("");
-      setCategories(
-        response.data
-          .map((item) => item.category)
-          .filter((category, index, self) => self.indexOf(category) === index)
-      );
+      setSelectedCategory("all");
+      setCategories([
+        "all",
+        ...new Set(response.data.map((item) => item.category)),
+      ]);
     } catch (error) {
       console.log(error);
+      message.error("Failed to add item");
     }
   };
 
   const handleEdit = (record) => {
     setSelectedItem(record);
     setEditModal(true);
-    editForm.setFieldsValue(record);
   };
 
   const handleUpdateItem = async () => {
     try {
-      const values = editForm.getFieldsValue();
+      const values = await editForm.validateFields();
       const updatedItem = {
         ...selectedItem,
-        name: values.name,
-        price: values.price,
-        image: values.image,
-        category: editForm.getFieldValue("category"),
+        ...values,
       };
 
       await axios.put(`/api/items/edit-item/${selectedItem._id}`, updatedItem);
+      message.success("Item updated successfully");
       setItemsData(
         itemsData.map((item) =>
           item._id === selectedItem._id ? updatedItem : item
@@ -105,15 +95,18 @@ const ItemPage = () => {
       editForm.resetFields();
     } catch (error) {
       console.log(error);
+      message.error("Failed to update item");
     }
   };
 
   const handleDelete = async (record) => {
     try {
       await axios.delete(`/api/items/delete-item/${record._id}`);
+      message.success("Item deleted successfully");
       setItemsData(itemsData.filter((item) => item._id !== record._id));
     } catch (error) {
       console.log(error);
+      message.error("Failed to delete item");
     }
   };
 
@@ -128,56 +121,37 @@ const ItemPage = () => {
 
   return (
     <DefaultLayout>
-      <div className="itempages-head">
-        <h1>Items</h1>
-        <div style={{ marginBottom: 20 }}>
-          {categories.map((category) => (
-            <Button
-              key={category}
-              className={
-                selectedCategory === category ? "navbut1 active" : "navbut1"
-              }
-              onClick={() => handleCategoryChange(category)}
-              style={{ marginRight: 10 }}
-            >
-              {category}
-            </Button>
-          ))}
-        </div>
-        <button className="navbut1" onClick={() => setPopupModal(true)}>
-          <PlusCircleOutlined
-            className="iconaddtocart"
-            style={{ cursor: "pointer" }}
-          />
+      <div className="d-flex justify-content-between align-items-center">
+        <h1>Item List</h1>
+        <Button type="primary" icon={<PlusCircleOutlined />} onClick={() => setPopupModal(true)}>
           Add Item
-        </button>
+        </Button>
       </div>
-      <Row gutter={16}>
+      <Select
+        style={{ width: 200, marginBottom: 20 }}
+        value={selectedCategory}
+        onChange={handleCategoryChange}
+      >
+        {categories.map((category) => (
+          <Option key={category} value={category}>{category}</Option>
+        ))}
+      </Select>
+      <Row gutter={[16, 16]}>
         {filteredItems.map((item) => (
-          <Col key={item._id} xs={24} sm={12} md={8} lg={6} xl={4}>
-            <div className="card">
-              <div className="dish-card-container">
-                <img
-                  className="card-img"
-                  loading="lazy"
-                  src={item.image}
-                  alt={item.name}
+          <Col key={item._id} xs={24} sm={12} md={8} lg={6}>
+            <div className="item-card">
+              <img src={item.image} alt={item.name} className="item-image" />
+              <h3 className="item-name">{item.name}</h3>
+              <p className="item-price">Price: ₹{item.price}</p>
+              <div className="item-actions">
+                <EditOutlined
+                  className="edit-icon"
+                  onClick={() => handleEdit(item)}
                 />
-                <div className="dish-info">
-                  <p className="card-title">{item.name}</p>
-                  <p className="card-info">₹{item.price}</p>
-                </div>
-                <div className="card-actions">
-                  <button className="navbut1" onClick={() => handleEdit(item)}>
-                    <i className="fa-solid fa-edit"></i>
-                  </button>
-                  <button
-                    className="navbut1"
-                    onClick={() => handleDelete(item)}
-                  >
-                    <i className="fa-solid fa-trash"></i>
-                  </button>
-                </div>
+                <DeleteOutlined
+                  className="delete-icon"
+                  onClick={() => handleDelete(item)}
+                />
               </div>
             </div>
           </Col>
@@ -185,61 +159,73 @@ const ItemPage = () => {
       </Row>
 
       <Modal
-        title="Add Item"
+        title="Add New Item"
         visible={popupModal}
-        onOk={handleAddItem}
         onCancel={() => setPopupModal(false)}
+        footer={false}
       >
-        <Form form={form} layout="vertical">
-          <Form.Item label="Name" name="name">
+        <Form layout="vertical" onFinish={handleAddItem} form={form}>
+          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item label="Price" name="price">
+          <Form.Item name="price" label="Price" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item label="Image" name="image">
+          <Form.Item name="image" label="Image URL" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item label="Category" name="category">
-            <Select value={selectedCategory} onChange={handleCategoryChange}>
-              {categories.map((category) => (
+          <Form.Item name="category" label="Category" rules={[{ required: true }]}>
+            <Select>
+              {categories.filter(cat => cat !== "all").map((category) => (
                 <Select.Option key={category} value={category}>
                   {category}
                 </Select.Option>
               ))}
             </Select>
           </Form.Item>
+          <div className="d-flex justify-content-end">
+            <Button type="primary" htmlType="submit">
+              SAVE
+            </Button>
+          </div>
         </Form>
       </Modal>
 
       <Modal
         title="Edit Item"
         visible={editModal}
-        onOk={handleUpdateItem}
         onCancel={() => setEditModal(false)}
+        footer={false}
       >
-        <Form form={editForm} layout="vertical">
-          <Form.Item label="Name" name="name">
+        <Form
+          layout="vertical"
+          initialValues={selectedItem}
+          onFinish={handleUpdateItem}
+          form={editForm}
+        >
+          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item label="Price" name="price">
+          <Form.Item name="price" label="Price" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item label="Image" name="image">
+          <Form.Item name="image" label="Image URL" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item label="Category" name="category">
-            <Select
-              value={selectedItem.category}
-              onChange={handleCategoryChange}
-            >
-              {categories.map((category) => (
+          <Form.Item name="category" label="Category" rules={[{ required: true }]}>
+            <Select>
+              {categories.filter(cat => cat !== "all").map((category) => (
                 <Select.Option key={category} value={category}>
                   {category}
                 </Select.Option>
               ))}
             </Select>
           </Form.Item>
+          <div className="d-flex justify-content-end">
+            <Button type="primary" htmlType="submit">
+              SAVE
+            </Button>
+          </div>
         </Form>
       </Modal>
     </DefaultLayout>

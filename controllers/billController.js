@@ -148,26 +148,34 @@ exports.getCustomers = async (req, res) => {
 // Get today's sales
 exports.getTodaySales = async (req, res) => {
   try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    console.log('Debug: Fetching today\'s sales from:', today);
+
     const todaySales = await Bill.aggregate([
       {
         $match: {
-          createdAt: {
-            $gte: new Date(new Date().setHours(0, 0, 0, 0)),
-            $lt: new Date(new Date().setHours(23, 59, 59, 999)),
-          },
-        },
+          createdAt: { $gte: today }
+        }
       },
       {
         $group: {
           _id: null,
-          totalSales: { $sum: "$totalAmount" },
-        },
-      },
+          totalSales: { $sum: "$totalAmount" }
+        }
+      }
     ]);
-    res.json({ totalSales: todaySales[0]?.totalSales || 0 });
+
+    console.log('Debug: Today\'s sales data:', JSON.stringify(todaySales, null, 2));
+
+    const totalSales = todaySales.length > 0 ? todaySales[0].totalSales : 0;
+    console.log('Debug: Total sales for today:', totalSales);
+
+    res.json({ totalSales });
   } catch (error) {
-    console.error("Error fetching today sales:", error);
-    res.status(500).json({ message: "Error fetching today sales" });
+    console.error("Error fetching today's sales:", error);
+    res.status(500).json({ message: "Error fetching today's sales" });
   }
 };
 
@@ -255,5 +263,26 @@ exports.getSalesData = async (req, res) => {
   } catch (error) {
     console.error("Error fetching sales data:", error);
     res.status(500).json({ message: "Error fetching sales data" });
+  }
+};
+
+exports.getBestSellingItems = async (req, res) => {
+  try {
+    const bestSellingItems = await Bill.aggregate([
+      { $unwind: "$cartItems" },
+      {
+        $group: {
+          _id: "$cartItems.name",
+          quantity: { $sum: "$cartItems.quantity" }
+        }
+      },
+      { $sort: { quantity: -1 } },
+      { $limit: 5 }
+    ]);
+
+    res.json(bestSellingItems.map(item => ({ name: item._id, quantity: item.quantity })));
+  } catch (error) {
+    console.error("Error fetching best selling items:", error);
+    res.status(500).json({ message: "Error fetching best selling items" });
   }
 };

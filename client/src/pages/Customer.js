@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import DefaultLayout from "../components/DefaultLayout";
 import { Table, message } from "antd";
 import axios from "axios";
+import { ElegantCard, PageTitle } from '../styles/SharedStyles';
 
 const CustomerPage = () => {
   const [customers, setCustomers] = useState([]);
@@ -50,13 +51,15 @@ const CustomerPage = () => {
 
   return (
     <DefaultLayout>
-      <h1>Customers</h1>
-      <Table
-        columns={columns}
-        dataSource={customers}
-        rowKey={(record) => record.phone}
-        loading={loading}
-      />
+      <PageTitle>Customers 👥</PageTitle>
+      <ElegantCard>
+        <Table
+          columns={columns}
+          dataSource={customers}
+          rowKey={(record) => record.phone}
+          loading={loading}
+        />
+      </ElegantCard>
     </DefaultLayout>
   );
 };

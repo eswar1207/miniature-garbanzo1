@@ -1,11 +1,26 @@
 import React, { useState, useEffect } from "react";
 import DefaultLayout from "../components/DefaultLayout";
-import { DatePicker, Select, Button, Table, message } from "antd";
+import { DatePicker, Select,  Table, message, Row, Col, Space } from "antd";
 import axios from "axios";
 import moment from "moment";
+import styled from 'styled-components';
+import { ElegantCard, PageTitle, StyledButton } from '../styles/SharedStyles';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
+
+const StyledSpace = styled(Space)`
+  width: 100%;
+  margin-bottom: 24px;
+`;
+
+const StyledSelect = styled(Select)`
+  min-width: 200px;
+`;
+
+const StyledRangePicker = styled(RangePicker)`
+  min-width: 300px;
+`;
 
 const ReportsPage = () => {
   const [reportType, setReportType] = useState("daily");
@@ -191,54 +206,64 @@ const ReportsPage = () => {
 
   return (
     <DefaultLayout>
-      <h1 className="text-center">Reports</h1>
-      <div className="report-filter">
-        <Select
-          value={reportType}
-          onChange={(value) => setReportType(value)}
-          style={{ width: 120 }}
-        >
-          <Option value="daily">Today's Sales</Option>
-          <Option value="custom">Sales between dates</Option>
-          <Option value="item">Sales of a particular item</Option>
-        </Select>
-        {reportType === "custom" && (
-          <RangePicker
-            value={dateRange}
-            onChange={(dates) => setDateRange(dates)}
-            style={{ width: 240 }}
+      <PageTitle>Sales Reports 📊</PageTitle>
+      <ElegantCard>
+        <StyledSpace direction="vertical" size="large">
+          <Row gutter={[16, 16]} align="middle">
+            <Col xs={24} md={8}>
+              <StyledSelect
+                value={reportType}
+                onChange={(value) => setReportType(value)}
+                style={{ width: '100%' }}
+              >
+                <Option value="daily">Today's Sales</Option>
+                <Option value="custom">Sales between dates</Option>
+                <Option value="item">Sales of a particular item</Option>
+              </StyledSelect>
+            </Col>
+            <Col xs={24} md={8}>
+              {reportType === "custom" && (
+                <StyledRangePicker
+                  value={dateRange}
+                  onChange={(dates) => setDateRange(dates)}
+                  style={{ width: '100%' }}
+                />
+              )}
+              {reportType === "item" && (
+                <StyledSelect
+                  value={selectedItem}
+                  onChange={(value) => setSelectedItem(value)}
+                  style={{ width: '100%' }}
+                >
+                  {items.map((item) => (
+                    <Option key={item._id} value={item.name}>
+                      {item.name}
+                    </Option>
+                  ))}
+                </StyledSelect>
+              )}
+            </Col>
+            <Col xs={24} md={8}>
+              <Space>
+                <StyledButton type="primary" onClick={handleGenerateReport}>
+                  Generate Report
+                </StyledButton>
+                <StyledButton onClick={handlePrint} disabled={reportData.length === 0}>
+                  Print Report
+                </StyledButton>
+              </Space>
+            </Col>
+          </Row>
+          <Table
+            columns={columns}
+            dataSource={reportData}
+            loading={loading}
+            rowKey={(record) => record.name}
+            pagination={{ pageSize: 10 }}
+            scroll={{ x: 'max-content' }}
           />
-        )}
-        {reportType === "item" && (
-          <Select
-            value={selectedItem}
-            onChange={(value) => setSelectedItem(value)}
-            style={{ width: 240 }}
-          >
-            {items.map((item) => (
-              <Option key={item._id} value={item.name}>
-                {item.name}
-              </Option>
-            ))}
-          </Select>
-        )}
-        <Button
-          type="primary"
-          onClick={handleGenerateReport}
-          style={{ marginRight: 16 }}
-        >
-          Generate Report
-        </Button>
-        <Button onClick={handlePrint} disabled={reportData.length === 0}>
-          Print Report
-        </Button>
-      </div>
-      <Table
-        columns={columns}
-        dataSource={reportData}
-        loading={loading}
-        rowKey={(record) => record.name}
-      />
+        </StyledSpace>
+      </ElegantCard>
     </DefaultLayout>
   );
 };

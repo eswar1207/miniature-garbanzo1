@@ -16,6 +16,7 @@ connectDb();
 //rest object
 const app = express();
 
+
 //middlwares
 app.use(cors());
 app.use(express.json());
@@ -27,6 +28,7 @@ app.use(morgan("dev"));
 app.use("/api/items", require("./routes/itemRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/bills", require("./routes/billRoutes"));
+app.use("/api/ai", require("./routes/aiRoutes"));
 //port
 const PORT = process.env.PORT || 8080;
 

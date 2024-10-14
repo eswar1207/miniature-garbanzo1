@@ -18,22 +18,25 @@ const CartPage = () => {
 
   const handleIncrement = (record) => {
     dispatch({
-      type: "UPDATE_QUANTITY",
+      type: "UPDATE_CART",
       payload: { ...record, quantity: record.quantity + 1 },
     });
   };
 
-  const handledcrement = (record) => {
-    if (record.quantity !== 1) {
+  const handleDecrement = (record) => {
+    if (record.quantity > 1) {
       dispatch({
-        type: "UPDATE_QUANTITY",
+        type: "UPDATE_CART",
         payload: { ...record, quantity: record.quantity - 1 },
       });
     }
   };
 
   const handleDelete = (record) => {
-    dispatch({ type: "DELETE_ITEM_CART", payload: record });
+    dispatch({
+      type: "DELETE_FROM_CART",
+      payload: record,
+    });
   };
 
   const columns = [
@@ -52,7 +55,7 @@ const CartPage = () => {
     },
     {
       title: "Quantity",
-      dataIndex: "id",
+      dataIndex: "_id",
       render: (id, record) => (
         <div>
           <PlusCircleOutlined
@@ -64,7 +67,7 @@ const CartPage = () => {
           <MinusCircleOutlined
             className="mx-3"
             style={{ cursor: "pointer" }}
-            onClick={() => handledcrement(record)}
+            onClick={() => handleDecrement(record)}
           />
         </div>
       ),
@@ -74,8 +77,8 @@ const CartPage = () => {
       dataIndex: "_id",
       render: (id, record) => (
         <DeleteOutlined
+          style={{ cursor: "pointer" }}
           onClick={() => handleDelete(record)}
-          style={{ cursor: "pointer", color: "red" }}
         />
       ),
     },

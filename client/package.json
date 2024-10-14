@@ -1,5 +1,5 @@
 {
-  "proxy": "https://rvrjccepos-backed.onrender.com",
+  "proxy": "http://localhost:8080",
   "name": "client",
   "version": "0.1.0",
   "private": true,
@@ -9,22 +9,26 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^4.20.2",
     "axios": "^0.27.2",
+    "moment": "^2.30.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.1",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-to-print": "^3.0.1",
     "recharts": "^2.13.0",
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
+    "styled-components": "^6.1.13",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "update-browserslist": "npx update-browserslist-db@latest"
   },
   "eslintConfig": {
     "extends": [

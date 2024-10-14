@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import DefaultLayout from "../components/DefaultLayout";
-import { Table, Button, Modal, Form, Input, Select, message } from "antd";
+import { Table,  Modal, Form, Input, Select, message } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
+import { ElegantCard, PageTitle, StyledButton } from '../styles/SharedStyles';
 
 const { Option } = Select;
 
@@ -145,68 +146,11 @@ const BillPage = () => {
 
   return (
     <DefaultLayout>
-      <div className="bill-page">
-        <h1>Bills</h1>
-        <Button type="primary" onClick={() => setIsModalVisible(true)}>
+      <PageTitle>Bills 📄</PageTitle>
+      <ElegantCard>
+        <StyledButton type="primary" onClick={() => setIsModalVisible(true)} style={{ marginBottom: '20px' }}>
           Add Bill
-        </Button>
-        <Modal
-          title={editingBill ? "Update Bill" : "Add Bill"}
-          visible={isModalVisible}
-          onOk={handleModalOk}
-          onCancel={handleModalCancel}
-        >
-          <Form form={form} layout="vertical">
-            <Form.Item
-              label="Customer Name"
-              name="customerName"
-              rules={[
-                { required: true, message: "Please enter customer name" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Customer Phone"
-              name="customerPhoneNumber"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter customer phone number",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Total Amount"
-              name="totalAmount"
-              rules={[{ required: true, message: "Please enter total amount" }]}
-            >
-              <Input type="number" />
-            </Form.Item>
-            <Form.Item
-              label="Tax"
-              name="tax"
-              rules={[{ required: true, message: "Please enter tax" }]}
-            >
-              <Input type="number" />
-            </Form.Item>
-            <Form.Item
-              label="Payment Method"
-              name="paymentMethod"
-              rules={[
-                { required: true, message: "Please select payment method" },
-              ]}
-            >
-              <Select>
-                <Option value="cash">Cash</Option>
-                <Option value="card">Card</Option>
-                <Option value="online">Online</Option>
-              </Select>
-            </Form.Item>
-          </Form>
-        </Modal>
+        </StyledButton>
         <Table
           columns={columns}
           dataSource={bills}
@@ -214,7 +158,65 @@ const BillPage = () => {
           rowKey="_id"
         />
         {error && <p style={{ color: "red" }}>{error}</p>}
-      </div>
+      </ElegantCard>
+
+      <Modal
+        title={editingBill ? "Update Bill" : "Add Bill"}
+        visible={isModalVisible}
+        onOk={handleModalOk}
+        onCancel={handleModalCancel}
+      >
+        <Form form={form} layout="vertical">
+          <Form.Item
+            label="Customer Name"
+            name="customerName"
+            rules={[
+              { required: true, message: "Please enter customer name" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Customer Phone"
+            name="customerPhoneNumber"
+            rules={[
+              {
+                required: true,
+                message: "Please enter customer phone number",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Total Amount"
+            name="totalAmount"
+            rules={[{ required: true, message: "Please enter total amount" }]}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            label="Tax"
+            name="tax"
+            rules={[{ required: true, message: "Please enter tax" }]}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            label="Payment Method"
+            name="paymentMethod"
+            rules={[
+              { required: true, message: "Please select payment method" },
+            ]}
+          >
+            <Select>
+              <Option value="cash">Cash</Option>
+              <Option value="card">Card</Option>
+              <Option value="online">Online</Option>
+            </Select>
+          </Form.Item>
+        </Form>
+      </Modal>
     </DefaultLayout>
   );
 };
