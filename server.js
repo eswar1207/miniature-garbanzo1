@@ -3,7 +3,6 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotanv = require("dotenv");
-const { bgCyan } = require("colors");
 require("colors");
 const connectDb = require("./config/config");
 const mongoose = require('mongoose');
