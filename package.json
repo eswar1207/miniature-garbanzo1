@@ -1,0 +1,28 @@
+{
+  "name": "pos-mern",
+  "version": "1.0.0",
+  "description": "pos mern app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm:server\" \"npm:client\"",
+    "seed": "node seeder.js"
+  },
+  "author": "Eswar",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.3",
+    "colors": "^1.4.0",
+    "concurrently": "^9.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^6.3.5",
+    "morgan": "^1.10.0",
+    "punycode": "^2.3.1"
+  }
+}

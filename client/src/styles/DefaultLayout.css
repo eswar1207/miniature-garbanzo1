@@ -1,0 +1,117 @@
+#components-layout-demo-custom-trigger .trigger {
+  padding: 0 24px;
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+#components-layout-demo-custom-trigger .trigger:hover {
+  color: #1890ff;
+}
+
+#components-layout-demo-custom-trigger .logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.site-layout .site-layout-background {
+  background: #fff;
+  box-shadow: 0 0 3px #ccc;
+  border-radius: 5px;
+  margin: 10px;
+  overflow: auto;
+}
+
+.ant-layout-has-sider {
+  padding: 5px !important;
+}
+
+.ant-layout.ant-layout-has-sider {
+  height: 100vh;
+}
+
+.ant-layout-sider {
+  border-radius: 10px !important;
+  padding-top: 10px !important;
+}
+
+/* Increased the size of icons */
+.anticon svg {
+  height: 30px;
+  width: 30px;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.ant-layout-header {
+  line-height: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.trigger {
+  margin-right: 20px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Cart styling */
+.cart-item {
+  padding-right: 30px;
+  display: flex;
+  padding-left: 20px;
+  cursor: pointer;
+  align-items: center;
+}
+
+.cart-item p {
+  margin-top: 7px;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.cart-item i {
+  font-size: 1.5rem;
+}
+
+/* User Info Section */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 20px;
+}
+
+.user-details {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.us{
+  margin-right: 10px;
+  display: inline-flex;
+  flex-direction: column;
+}
+.sider{
+  
+}

@@ -1,0 +1,37 @@
+.card{
+    background-color: #001529;
+    color: aliceblue;
+    width: 250px;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    box-shadow: 1px 1px 10px black;
+    margin-left: 1.5rem;
+    align-items: center;
+}
+.card-img{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+.card-title{
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+.card-info{
+    font-size: 1.5rem;
+}
+.navbut1
+{
+    background-color: #fff; 
+    color: #000; /* Text color */
+    border: none;
+    border-radius: 20px; /* Rounded corners */
+    padding: 0.75rem 1.5rem; /* Padding for buttons */
+    cursor: pointer;
+    font-size: 0.875rem; /* Button text size */
+}
+
+.navbut1:hover, .navbut2:hover {
+    transform: scale(1.05); 
+}

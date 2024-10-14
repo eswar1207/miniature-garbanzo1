@@ -1,0 +1,121 @@
+body{
+    background-color: #1a202c;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Add this to make the container take up the full height of the viewport */
+}
+.image-container {
+  flex: 1;
+  padding: 20px;
+  display: flex; /* Add this to center the image horizontally and vertically */
+  justify-content: center;
+  align-items: center;
+  height: 85vh; /* Set the height of the image container */
+  width: 40vw; /* Set the width of the image container */
+}
+.image-container img {
+  border-radius: 10px;
+  width: 100%; /* Add this to make the image take up the maximum available width */
+  height: 100%; /* Add this to make the image take up the full height of the container */
+  object-fit: cover; /* Add this to make the image cover the entire container while maintaining its aspect ratio */
+}
+
+.form-container {
+  flex: 1;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 80vh; /* Set the height of the form container */
+  width: 40vw; /* Set the width of the form container */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  margin-bottom: 20px;
+  color: #2d3748;
+  font-weight: bold;
+}
+
+.form-container .logo {
+  margin-bottom: 20px;
+}
+
+.form-container .input-group {
+  width: 90%;
+  margin-bottom: 20px;
+}
+
+.form-container .input-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #2d3748;
+}
+
+.form-container .input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cbd5e0;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.form-container .input-group input:focus {
+  outline: none;
+  border-color: #63b3ed;
+}
+
+.form-container .button {
+  width: 90%;
+  padding: 10px;
+  background-color: #ed8936;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.form-container .button:hover {
+  background-color: #dd6b20;
+}
+
+.form-container .login-link {
+  color: #63b3ed;
+  text-decoration: none;
+}
+
+.form-container .login-link:hover {
+  text-decoration: underline;
+}
+
+/* Make the form responsive */
+@media (max-width: 768px) {
+  .card {
+    flex-direction: column;
+  }
+  .image-container {
+    padding: 10px;
+  }
+  .form-container {
+    padding: 20px;
+  }
+  .form-container .input-group {
+    width: 100%;
+  }
+  .form-container .button {
+    width: 100%;
+  }
+}
+.image-container img {
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  box-shadow: 0 0 20px rgba(255, 165, 0, 0.3);; /* Add box shadow to image */
+}

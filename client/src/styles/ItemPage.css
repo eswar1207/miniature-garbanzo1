@@ -1,0 +1,50 @@
+.iconaddtocart {
+  font-size: 24px;
+  color: #08f070;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-left: 0%;
+}
+
+.itempages-head {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.itempages-head h1 {
+  margin-right: auto; /* Pushes the h1 to the left */
+}
+
+.navbut1 {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.navbut1:hover {
+  transform: scale(1.05);
+}
+card {
+  background-color: #001529;
+  color: aliceblue;
+  width: 200px; /* Reduced from 250px */
+  border-radius: 0.5rem;
+  padding: 0.5rem; /* Reduced padding */
+  margin-top: 1rem;
+  box-shadow: 1px 1px 10px black;
+  margin-left: 1.5rem;
+  align-items: center;
+}
+
+.card-img {
+  aspect-ratio: 1;
+  width: 200px; /* Adjusted width */ /* Adjusted height */
+  border-radius: 50%;
+}
+
