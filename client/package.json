@@ -1,5 +1,5 @@
 {
-  "proxy": "http://localhost:8080",
+  "proxy": "https://pos-backed.onrender.com",
   "name": "client",
   "version": "0.1.0",
   "private": true,
