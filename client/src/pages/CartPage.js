@@ -1,3 +1,4 @@
+import api from '../api';
 import React, { useState, useEffect } from "react";
 import DefaultLayout from "../components/DefaultLayout";
 import { useSelector, useDispatch } from "react-redux";
