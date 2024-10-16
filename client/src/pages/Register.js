@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import api from '../api';
 import { useDispatch } from "react-redux";
 import { message, Form, Input, Button } from "antd";
 import "../styles/Register.css";
