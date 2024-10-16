@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Statistic, Spin, message, Table } from "antd";
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 import axios from "axios";
+import api from '../api';
 import DefaultLayout from "../components/DefaultLayout";
 import SalesChart from "../components/SalesChart";
 import { ElegantCard, PageTitle } from '../styles/SharedStyles';
