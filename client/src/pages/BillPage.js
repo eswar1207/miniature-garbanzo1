@@ -3,6 +3,7 @@ import DefaultLayout from "../components/DefaultLayout";
 import { Table,  Modal, Form, Input, Select, message } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
+import api from './api'
 import { ElegantCard, PageTitle, StyledButton } from '../styles/SharedStyles';
 
 const { Option } = Select;
