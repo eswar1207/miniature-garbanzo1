@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import DefaultLayout from "../components/DefaultLayout";
 import { Row, Col, Button, Form, Modal, Input, Select, message } from "antd";
 import axios from "axios";
+import api from '../api';
 import { PlusCircleOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "../styles/ItemPage.css";
 
